@@ -11,3 +11,10 @@ def user_api_view(request):
         users = User.objects.all()
         users_serialier = UserSerializer(users, many=True)
         return Response(users_serialier.data)
+
+    elif request.method == 'POST':
+        user_serialier = UserSerializer(data = request.data)
+        if user_serialier.is_valid():
+            user_serialier.save()
+            return Response(user_serialier.data)
+        return Response(user_serialier.errors)
